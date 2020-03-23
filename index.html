@@ -8,49 +8,21 @@
 </head>
 <body>
 
-    <div class="container">
-  
-        <h1>To-Do list</h1>
-        
-
-        <div class="new-task-container box">       
-            <label for="new-task">Add New Task</label>
-            <input type="text" id="new-task">
-            <button id="addTask">Add Task</button>
-        </div>
-        
-        <div class="all box">
-          <h2>All Tasks</h2>
-          <ul>
-            <li><input type="checkbox"><label>Task Name</lable></li>
-            <li><input type="checkbox"><label>Task Name</lable></li>
-            <li><input type="checkbox"><label>Task Name</lable></li>
-          </ul>  
-        </div><!--/todo-list-->
-        
-
-        <div class="todo-list box">
-          <h2>Incomplete Tasks</h2>
-          <ul>
-            <li><input type="checkbox"><label>Task Name</lable></li>
-            <li><input type="checkbox"><label>Task Name</lable></li>
-            <li><input type="checkbox"><label>Task Name</lable></li>
-          </ul>  
-        </div><!--/todo-list-->
-        
-
-
-        
-        <div class="complete-list box">
-          <h2>Completed Tasks</h2>
-          <ul>
-            <li>Task Name <button class="delete">Delete</button></li>
-      
-          </ul>   
-        </div><!--/complete-list-->
-        
-
-    </div><!--/container-->
+  <div id="container">
+    <h1>TO DO LIST</h1>
+    <form id="todo-form" class="clearfix">
+      <input type="text" id="todo-add" placeholder="New Item" required/>
+      <input type="submit" value="&#10010;"/>
+    </form>
+    <div id="todo-del">
+      <input type="button" value="Delete All" id="todo-da"/>
+      <input type="button" value="Delete Completed" id="todo-dc"/>
+      <input type="button" value="show All" id="show_all"/>
+      <input type="button" value="show to do" id="show_all"/>
+      <input type="button" value="show done" id="show_done"/>
+    </div>
+    <div id="todo-list"></div>
+  </div>
     
 
     <script src="script/script.js"></script>

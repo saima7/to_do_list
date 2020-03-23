@@ -1,88 +1,165 @@
-var newTask = document.querySelector('#new-task');
-var addTaskBtn = document.querySelector('#addTask');
+var todo = {
+  data: [], 
+  load: function () {
+    // Init localstorage
+    if (localStorage.list == undefined) {
+      localStorage.list = "[]";
+    }
+    // Parse JSON
+    // [0] = Task
+    // [1] = Status : 0 not done, 1 completed, 2 cancelled
+    todo.data = JSON.parse(localStorage.list);
+    todo.list();
+  },
 
-var toDoUl = document.querySelector(".todo-list ul");
-var completeUl =  document.querySelector(".complete-list ul");
+
+
+  save: function () {
+  // todo.save() : save the current data to local storage
+    localStorage.list = JSON.stringify(todo.data);
+    todo.list();
+  },
 
 
 
-//CREATING THE ACTUAL TASK LIST ITEM
-var createNewTask = function(task){
-  
-  //SET UP THE NEW LIST ITEM
-  var listItem = document.createElement("li"); 
-  var checkBox = document.createElement("input"); 
-  var label = document.createElement("label");
+  list: function () {
+  // todo.list() : update todo list HTML
 
-  label.innerText = task;
-  checkBox.type = "checkbox";
-  listItem.appendChild(checkBox);
-  listItem.appendChild(label);
-  return listItem;  
-  
+    // Clear the old list
+    var container = document.getElementById("todo-list");
+    container.innerHTML = "";
+
+    // Rebuild list
+    if (todo.data.length > 0) {
+      var row = "", el = "";
+      for (var key in todo.data) {
+        // Row container
+        row = document.createElement("div");
+        row.classList.add("clearfix");
+        row.dataset.id = key;
+
+        // Item text
+        el = document.createElement("div");
+        el.classList.add("item");
+        if (todo.data[key][1] == 1) {
+          el.classList.add("done");
+        }
+        if (todo.data[key][1] == 2) {
+          el.classList.add("cx");
+        }
+        el.innerHTML = todo.data[key][0];
+        row.appendChild(el);
+
+
+       // Add edit button
+       el = document.createElement("input");
+       el.setAttribute("type", "button");
+       el.value = "edit";
+       el.classList.add("bedit");
+       el.addEventListener("click", function () {
+         todo.status(this, 3);
+       });
+       row.appendChild(el);
+
+
+
+        // Add cancel button
+        el = document.createElement("input");
+        el.setAttribute("type", "button");
+        el.value = "\u2716";
+        el.classList.add("bdel");
+        el.addEventListener("click", function () {
+          todo.status(this, 2);
+        });
+        row.appendChild(el);
+
+        // Add done button
+        el = document.createElement("input");
+        el.setAttribute("type", "button");
+        el.value = "\u2714";
+        el.classList.add("bdone");
+        el.addEventListener("click", function () {
+          todo.status(this, 1);
+        });
+        row.appendChild(el);
+
+        // Add row to list
+        container.appendChild(row);
+      }
+    }
+  },
+
+  add: function () {
+  // todo.add() : add a new item
+
+    todo.data.push([
+      document.getElementById("todo-add").value, 0
+    ]);
+    document.getElementById("todo-add").value = "";
+    todo.save();
+  },
+
+  status: function (el, stat) {
+  // todo.status() : update item status
+
+    var parent = el.parentElement;
+    todo.data[parent.dataset.id][1] = stat;
+    todo.save();
+  },
+
+  del: function (type) {
+  // todo.del() : delete items
+ 
+    if (confirm("Delete tasks?")) {
+      // Delete all
+      if (type == 0) {
+        todo.data = [];
+        todo.save();
+      }
+      // Filter, keep only not completed
+      else {
+        todo.data = todo.data.filter(row => row[1]==0);
+        todo.save();
+      }
+    }
+  },
+  show: function (type) {
+    if (type == 0) {
+   
+      todo.save();
+    }
+    // Filter, keep only not completed
+    else {
+      
+    }
+  }
+
+
 };
 
-//ADD THE NEW TASK INTO ACTUAL INCOMPLETE LIST
-  var addTask = function(){
-  var listItem = createNewTask(newTask.value);
+// Page init
+window.addEventListener("load", function () {
+  document.getElementById("todo-da").addEventListener("click", function () {
+    todo.del(0);
+  });
+  document.getElementById("todo-dc").addEventListener("click", function () {
+    todo.del(1);
+  });
 
-  toDoUl.appendChild(listItem); 
-  newTask.value="";
-  bindIncompleteItems(listItem, completeTask);
-
-};
-
-
-
-var completeTask = function(){
+  document.getElementById("show_all").addEventListener("click", function () {
+    todo.load();
+  });
+  document.getElementById("show_done").addEventListener("click", function () {
+    todo.show(0);
+  });
+  document.getElementById("show_done").addEventListener("click", function () {
+    todo.show(1);
+  });
   
-  var listItem = this.parentNode;
-  var deleteBtn = document.createElement("button"); 
-  deleteBtn.innerText ="Delete"; 
-  deleteBtn.className = "delete";
-  listItem.appendChild(deleteBtn);
-  
-  var checkBox = listItem.querySelector("input[type=checkbox]");
-  checkBox.remove();
-  
-  completeUl.appendChild(listItem); 
-  
-  bindCompleteItems(listItem, deleteTask);
-};
 
-
-//DELETE TASK FUNCTIONS
-var deleteTask = function(){ 
-  var listItem = this.parentNode;
-  var ul = listItem.parentNode; 
-  ul.removeChild(listItem);
-};
-
-
-//A FUNCTION THAT BINDS EACH OF THE ELEMENTS THE INCOMPLETE LIST
-var bindIncompleteItems = function(taskItem, checkBoxClick){  
-  var checkBox = taskItem.querySelector("input[type=checkbox]");
-  checkBox.onchange = checkBoxClick;  
-}; 
-
-
-//A FUNCTIONM THAT BINDS EACH OF THE ELEMTS IN THE COMPLETE LIST
-var bindCompleteItems = function(taskItem, deleteButtonPress){ 
-  var deleteButton = taskItem.querySelector(".delete");  
-  deleteButton.onclick = deleteButtonPress;
-};
-
-
-for(var i=0; i < toDoUl.children.length; i++) {
-  bindIncompleteItems(toDoUl.children[i], completeTask);
-}
-
-
-
-for(var i=0; i < completeUl.children.length; i++) {
-  bindCompleteItems(completeUl.children[i], deleteTask);
-}
-
-
-
-addTaskBtn.addEventListener("click", addTask);
+  document.getElementById("todo-form").addEventListener("submit", function (evt) {
+    evt.preventDefault();
+    todo.add();
+  });
+  todo.load();
+});

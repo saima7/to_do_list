@@ -1,7 +1,6 @@
 var todo = {
   data: [], 
   load: function () {
-    // Init localstorage
     if (localStorage.list == undefined) {
       localStorage.list = "[]";
     }
@@ -15,7 +14,7 @@ var todo = {
 
 
   save: function () {
-  // todo.save() : save the current data to local storage
+  //  save the current data to local storage
     localStorage.list = JSON.stringify(todo.data);
     todo.list();
   },
@@ -23,22 +22,20 @@ var todo = {
 
 
   list: function () {
-  // todo.list() : update todo list HTML
 
-    // Clear the old list
     var container = document.getElementById("todo-list");
     container.innerHTML = "";
 
-    // Rebuild list
+   
     if (todo.data.length > 0) {
       var row = "", el = "";
       for (var key in todo.data) {
-        // Row container
+    
         row = document.createElement("div");
         row.classList.add("clearfix");
         row.dataset.id = key;
 
-        // Item text
+
         el = document.createElement("div");
         el.classList.add("item");
         if (todo.data[key][1] == 1) {
@@ -108,7 +105,7 @@ var todo = {
   },
 
   del: function (type) {
-  // todo.del() : delete items
+
  
     if (confirm("Delete tasks?")) {
       // Delete all
@@ -116,7 +113,7 @@ var todo = {
         todo.data = [];
         todo.save();
       }
-      // Filter, keep only not completed
+    
       else {
         todo.data = todo.data.filter(row => row[1]==0);
         todo.save();
@@ -125,10 +122,10 @@ var todo = {
   },
   show: function (type) {
     if (type == 0) {
-   
-      todo.save();
+      todo.data=todo.data
+     
     }
-    // Filter, keep only not completed
+
     else {
       
     }
@@ -137,7 +134,7 @@ var todo = {
 
 };
 
-// Page init
+
 window.addEventListener("load", function () {
   document.getElementById("todo-da").addEventListener("click", function () {
     todo.del(0);

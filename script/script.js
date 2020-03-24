@@ -23,6 +23,7 @@ var todo = {
   list: function () {
     var container = document.getElementById("todo-list");
     container.innerHTML = "";
+    
 
    
     if (todo.data.length > 0) {
@@ -35,6 +36,7 @@ var todo = {
 
 
         element = document.createElement("div");
+        //element.setAttribute("type", "text");
         element.classList.add("item");
         if (todo.data[key][1] == 1) {
           element.classList.add("done");
@@ -52,8 +54,8 @@ var todo = {
        element.value = "edit";
        element.classList.add("btnEdit");
        element.addEventListener("click", function () {
-        element.setAttribute("contentEditable", "true");
-         todo.status(this, 0);
+        todo.data[row.dataset.id][0]= document.getElementById("todo-add").value;
+        todo.status(this, 0);
        });
        row.appendChild(element);
 

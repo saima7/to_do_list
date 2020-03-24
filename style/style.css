@@ -70,6 +70,12 @@
 #todo-list .clearfix {
   margin-top: 8px;
 }
+#todo-list .clearfix input[type=text]  {
+  width: 70%;
+}
+
+
+
 #todo-list .clearfix div, #todo-list .clearfix input {
   float: left;
   display: block;

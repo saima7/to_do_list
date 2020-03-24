@@ -14,7 +14,7 @@
   padding: 10px 8px;
 }
 #container input[type=button], #container input[type=submit] {
-  padding: 8px 5px;
+  padding: 8px 9px;
   color: #fff;
   background: #CF585C;
   border: 2px solid #CF585C;
@@ -74,8 +74,6 @@
   width: 70%;
 }
 
-
-
 #todo-list .clearfix div, #todo-list .clearfix input {
   float: left;
   display: block;
@@ -93,6 +91,8 @@
 #todo-list .item.done {
   background: #DCFFD7;
 }
+
+
 #todo-list .clearfix input {
   width: 10%;
 }
@@ -104,6 +104,6 @@
 #todo-list input.btnEdit {
 
   height:40px;
-  background: rgb(207, 212, 206);
+  background: rgb(52, 56, 51);
   border: 2px solid rgb(195, 211, 193);
 }

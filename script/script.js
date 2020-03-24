@@ -4,9 +4,10 @@ var todo = {
     if (localStorage.list == undefined) {
       localStorage.list = "[]";
     }
-    // Parse JSON
+
     // [0] = Task
     // [1] = Status : 0 not done, 1 completed, 2 cancelled
+    this.data.sort();
     todo.data = JSON.parse(localStorage.list);
     todo.list();
   },
@@ -23,20 +24,16 @@ var todo = {
   list: function () {
     var container = document.getElementById("todo-list");
     container.innerHTML = "";
-    
 
-   
     if (todo.data.length > 0) {
       var row = "", element = "";
       for (var key in todo.data) {
-    
         row = document.createElement("div");
         row.classList.add("clearfix");
         row.dataset.id = key;
-
-
+  
         element = document.createElement("div");
-        //element.setAttribute("type", "text");
+
         element.classList.add("item");
         if (todo.data[key][1] == 1) {
           element.classList.add("done");
@@ -54,6 +51,7 @@ var todo = {
        element.value = "edit";
        element.classList.add("btnEdit");
        element.addEventListener("click", function () {
+        
         todo.data[row.dataset.id][0]= document.getElementById("todo-add").value;
         todo.status(this, 0);
        });
@@ -107,8 +105,6 @@ var todo = {
   },
 
   del: function (type) {
-
- 
     if (confirm("Delete tasks?")) {
       // Delete all
       if (type == 0) {
@@ -116,10 +112,15 @@ var todo = {
         todo.save();
       }
     
-      else {
+      else if(type == 2){
         todo.data = todo.data.filter(row => row[1]==0);
         todo.save();
       }
+      else{
+        todo.data = todo.data.filter(row => row[1]==0);
+        todo.save();
+      }
+      
     }
   },
   show: function (type) {
@@ -224,6 +225,9 @@ window.addEventListener("load", function () {
   });
   document.getElementById("todo-dc").addEventListener("click", function () {
     todo.del(1);
+  });
+  document.getElementById("todo-d").addEventListener("click", function () {
+    todo.del(2);
   });
 
   document.getElementById("show_all").addEventListener("click", function () {

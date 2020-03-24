@@ -59,8 +59,8 @@
 }
 #todo-form input[type=submit] {
   width: 15%;
-  background: #5866CF;
-  border: 2px solid #5866CF;
+  background: #4AA53D;
+  border: 2px solid #4AA53D;
 }
 
 /* [DELETE] */
@@ -71,7 +71,6 @@
   margin-top: 8px;
 }
 #todo-list .clearfix div, #todo-list .clearfix input {
-  box-sizing: border-box;
   float: left;
   display: block;
 }
@@ -81,7 +80,7 @@
   width: 70%;
   padding: 10px;
 }
-#todo-list .item.cx {
+#todo-list .item.cancel {
   background: #FFE1D7;
   text-decoration: line-through;
 }
@@ -96,7 +95,9 @@
   border: 2px solid #4AA53D;
 }
 
-#todo-list input.bedit {
+#todo-list input.btnEdit {
+
+  height:40px;
   background: rgb(207, 212, 206);
   border: 2px solid rgb(195, 211, 193);
 }
